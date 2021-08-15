@@ -1,0 +1,23 @@
+{
+    "+380630000000": {
+        "first_name": "John",
+        "last_name": "Smithson",
+        "full_name": "John Smithson",
+        "country": "Ukraine",
+        "city": "NY"
+    },
+    "+380632400012": {
+        "first_name": "Aleks",
+        "last_name": "Test",
+        "full_name": "Aleks test",
+        "country": "Ukraine",
+        "city": "Kiev"
+    },
+    "+380638889977": {
+        "first_name": "Test",
+        "last_name": "Test",
+        "full_name": "Test",
+        "country": "UK",
+        "city": "London"
+    }
+}
