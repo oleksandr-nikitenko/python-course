@@ -4,6 +4,7 @@ Create a Fraction class, which will represent all basic arithmetic logic for fra
 checking and error handling
 """
 
+
 class Fraction:
     def __init__(self, value):
         try:
@@ -18,21 +19,33 @@ class Fraction:
         return f'{self.__class__.__name__}({self.numerator}, {self.denominator})'
     
     def __add__(self, other):
-        return Fraction((self.numerator * other.denominator + other.numerator * self.denominator) /
-                        (self.denominator * other.denominator))
+        if isinstance(other, Fraction):
+            return Fraction((self.numerator * other.denominator + other.numerator * self.denominator) /
+                            (self.denominator * other.denominator))
+        else:
+            return f'{other} - is not object {self.__class__.__name__}'
     
     def __sub__(self, other):
-        return Fraction((self.numerator * other.denominator - other.numerator * self.denominator) /
-                        (self.denominator * other.denominator))
+        if isinstance(other, Fraction):
+            return Fraction((self.numerator * other.denominator - other.numerator * self.denominator) /
+                            (self.denominator * other.denominator))
+        else:
+            return f'{other} - is not object {self.__class__.__name__}'
     
     def __truediv__(self, other):
-        if self.denominator * other.numerator == 0:
-            raise ZeroDivisionError
+        if isinstance(other, Fraction):
+            try:
+                return Fraction((self.numerator * other.denominator) / (self.denominator * other.numerator))
+            except ZeroDivisionError:
+                return f'division by zero'
         else:
-            return Fraction((self.numerator * other.denominator) / (self.denominator * other.numerator))
+            return f'{other} - is not object {self.__class__.__name__}'
     
     def __mul__(self, other):
-        return Fraction((self.numerator * other.numerator) / (self.denominator * other.denominator))
+        if isinstance(other, Fraction):
+            return Fraction((self.numerator * other.numerator) / (self.denominator * other.denominator))
+        else:
+            return f'{other} - is not object {self.__class__.__name__}'
 
 
 x = Fraction(1/2)
