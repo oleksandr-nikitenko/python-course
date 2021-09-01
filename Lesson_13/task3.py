@@ -1,26 +1,55 @@
 """
-Write a function called `choose_func` which takes a list of nums and 2 callback functions. If all nums inside the list
-are positive, execute the first function on that list and return the result of it. Otherwise, return the result of
-the second one
+Fraction
+Create a Fraction class, which will represent all basic arithmetic logic for fractions (+, -, /, *) with appropriate
+checking and error handling
 """
 
 
-def choose_func(nums: list, func1, func2):
-    if len(nums) == len([i for i in nums if i > 0]):
-        return func1(nums)
-    else:
-        return func2(nums)
+class Fraction:
+    def __init__(self, value):
+        try:
+            self.numerator, self.denominator = value.as_integer_ratio()
+        except AttributeError:
+            print('Value mast be int or float')
+        
+    def __str__(self):
+        return f'{self.__class__.__name__}({self.numerator}, {self.denominator})'
     
-       
-def square_nums(nums):
-    return [num ** 2 for num in nums]
+    def __repr__(self):
+        return f'{self.__class__.__name__}({self.numerator}, {self.denominator})'
+    
+    def __add__(self, other):
+        if isinstance(other, Fraction):
+            return Fraction((self.numerator * other.denominator + other.numerator * self.denominator) /
+                            (self.denominator * other.denominator))
+        else:
+            return f'{other} - is not object {self.__class__.__name__}'
+    
+    def __sub__(self, other):
+        if isinstance(other, Fraction):
+            return Fraction((self.numerator * other.denominator - other.numerator * self.denominator) /
+                            (self.denominator * other.denominator))
+        else:
+            return f'{other} - is not object {self.__class__.__name__}'
+    
+    def __truediv__(self, other):
+        if isinstance(other, Fraction):
+            try:
+                return Fraction((self.numerator * other.denominator) / (self.denominator * other.numerator))
+            except ZeroDivisionError:
+                return f'division by zero'
+        else:
+            return f'{other} - is not object {self.__class__.__name__}'
+    
+    def __mul__(self, other):
+        if isinstance(other, Fraction):
+            return Fraction((self.numerator * other.numerator) / (self.denominator * other.denominator))
+        else:
+            return f'{other} - is not object {self.__class__.__name__}'
 
 
-def remove_negatives(nums):
-    return [num for num in nums if num > 0]
+x = Fraction(1/2)
+y = Fraction(1/4)
 
+print(x + y)  # == Fraction(3, 4)
 
-nums1 = [1, 2, 3, 4, 5]
-nums2 = [1, -2, 3, -4, 5]
-assert choose_func(nums1, square_nums, remove_negatives) == [1, 4, 9, 16, 25]
-assert choose_func(nums2, square_nums, remove_negatives) == [1, 3, 5]

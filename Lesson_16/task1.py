@@ -1,26 +1,20 @@
 """
-Create your own implementation of a built-in function enumerate, named `with_index`, which takes two parameters:
-`iterable` and `start`, default is 0. Tips: see the documentation for the enumerate function
+Create a class method named `validate`, which should be called from the `__init__` method to validate parameter email,
+passed to the constructor. The logic inside the `validate` method could be to check if the passed email parameter is a
+valid email string.
 """
+import re
 
 
-class with_index:
-    def __init__(self, iterable, start=0):
-        self.iterable = iterable
-        self.start = start
-        self.i = 0
+class Validator:
+    _regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
     
-    def __iter__(self):
-        return self
+    def __init__(self, email: str) -> None:
+        if Validator.validate(email):
+            self.email = email
+        else:
+            raise ValueError(f'E-mail: {email} - is not valid.')
     
-    def __next__(self):
-        if self.i == len(self.iterable):
-            raise StopIteration
-        result = self.start, self.iterable[self.i]
-        self.i += 1
-        self.start += 1
-        return result
-
-
-for i in with_index(['a', 'b', 'c', 'd'], 1):
-    print(i)
+    @classmethod
+    def validate(cls, email: str) -> bool:
+        return True if re.fullmatch(cls._regex, email) else False

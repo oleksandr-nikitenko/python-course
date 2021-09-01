@@ -1,26 +1,17 @@
 """
-Write a decorator that prints a function with arguments passed to it.
-NOTE! It should print the function, not the result of its execution!
+Write a Python program to detect the number of local variables declared in a function.
 """
-from functools import wraps
 
 
-def logger(func):
-    @wraps(func)
-    def wrap(*args):
-        print(f'{func.__name__} called with {", ".join(str(a) for a in args)} ')
-    return wrap
-    
-
-@logger
-def add(x, y):
-    return x + y
+def foo():
+    i_str = ''
+    i_int = 12
+    i_list = [0, 1, 2]
+    return True
 
 
-@logger
-def square_all(*args):
-    return [arg ** 2 for arg in args]
+def count_func(func):
+    return func.__code__.co_nlocals
 
 
-add(1, 2)
-square_all(1, 2, 3, 4, 5)
+print(count_func(foo))  # 3

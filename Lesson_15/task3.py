@@ -1,62 +1,39 @@
 """
-Write a class TypeDecorators which has several methods for converting results of functions to a specified type
-(if it's possible): to_int, to_str, to_bool, to_float
+Write a decorator `arg_rules` that validates arguments passed to the function.
+A decorator should take 3 arguments:
+max_length: 15
+type_: str
+contains: [] - list of symbols that an argument should contain
+If some of the rules' checks returns False, the function should return False and print the reason it failed; otherwise,
+return the result.
 """
 from functools import wraps
 
 
-class TypeDecorators:
+def arg_rules(type_: type, max_length: int, contains: list):
+    def arg_rules_dec(func):
+        @wraps(func)
+        def wrap(name):
+            err = []
+            if not isinstance(name, type_):
+                err.append(f'{name} is not {type_}')
+            if len(name) > max_length:
+                err.append(f'{name} > {max_length}')
+            err.extend(f'not found {i}' for i in contains if i not in name)
+            if len(err) == 0:
+                return func(name)
+            else:
+                print(err)
+                return False
+        return wrap
+    return arg_rules_dec
+
+
+@arg_rules(type_=str, max_length=15, contains=['05', '@'])
+def create_slogan(name: str) -> str:
+    return f"{name} drinks pepsi in his brand new BMW!"
     
-    @staticmethod
-    def to_str(func):
-        @wraps(func)
-        def wrap(string):
-            return str(string)
-        return wrap
-    
-    @staticmethod
-    def to_int(func):
-        @wraps(func)
-        def wrap(string):
-            try:
-                return int(string)
-            except TypeError as e:
-                return e
-        return wrap
 
-    @staticmethod
-    def to_bool(func):
-        @wraps(func)
-        def wrap(string):
-            try:
-                return bool(string)
-            except TypeError as e:
-                return e
-        return wrap
+assert create_slogan('johndoe05@gmail.com') is False
+assert create_slogan('S@SH05') == 'S@SH05 drinks pepsi in his brand new BMW!'
 
-    @staticmethod
-    def to_float(func):
-        @wraps(func)
-        def wrap(string):
-            try:
-                return float(string)
-            except TypeError as e:
-                return e
-            except ValueError as e:
-                return e
-        return wrap
-
-
-@TypeDecorators.to_int
-def do_nothing(string: str):
-    return string
-
-
-@TypeDecorators.to_bool
-def do_something(string: str):
-    return string
-
-
-assert do_nothing('25') == 25
-
-assert do_something('True') is True

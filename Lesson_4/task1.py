@@ -1,25 +1,13 @@
-from random import randint
+"""
+Write a Python program to get a string made of the first 2 and the last 2 chars from a given string. If the string
+length is less than 2, return instead of the empty string.
+"""
+sample_string = ['helloworld', 'my', 'x']
 
-print('Enter \'999\' to EXIT.')
-while True:
-    number = randint(1, 10)
-    try:
-        input_number = int(input('Enter a number from 1 to 10:\n'))
-    except ValueError:
-        print('ERROR: You entered incorrect data!')
-        continue
-    # Exit
-    if input_number == 999:
-        print('GAME OVER.')
-        break
-    
-    if input_number not in range(1, 11):
-        print('WARNING: The number must be in the range from 1 to 10.')
-        continue
+for s in sample_string:
+    if len(s) < 2:
+        s = "Empty String"
     else:
-        if number == input_number:
-            print(f'You answered correctly! ({number})!\n GAME OVER.')
-            break
-        else:
-            print(f'You answered wrong! ({number})')
-            continue
+        s = s[0:2] + s[-2:]
+    print(s)
+

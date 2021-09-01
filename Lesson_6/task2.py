@@ -1,12 +1,19 @@
+"""
+Generate 2 lists with the length of 10 with random integers from 1 to 10, and make a third list containing the common
+integers between the 2 initial lists without any duplicates.
+Constraints: use only while loop and random module to generate numbers
+"""
+from random import randrange
 
-stock, prices = {"banana": 6, "apple": 0, "orange": 32, "pear": 15}, {"banana": 4, "apple": 2, "orange": 1.5, "pear": 3}
+list1, list2 = [], []
+while True:
+    list1.append(randrange(0, 10))
+    list2.append(randrange(0, 10))
+    if len(list1) == 10 and len(list2) == 10:
+        break
+        
+list3 = list(set(list1) & set(list2))
+print(f'list 1: {list1}', f'list 2: { list2}', sep='\n')
+print(f'list 3: {list3}')
+    
 
-
-def calculate_price(stock_dict: dict, prices_dict: dict) -> float:
-    total_price = float()
-    for key in stock_dict:
-        total_price += stock_dict[key] * prices_dict[key]
-    return total_price
-
-
-print(calculate_price(stock, prices))

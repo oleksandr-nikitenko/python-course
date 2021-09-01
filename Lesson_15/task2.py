@@ -1,62 +1,24 @@
 """
-Implement 2 classes, the first one is the Boss and the second one is the Worker.
-Worker has a property 'boss', and its value must be an instance of Boss.
-You can reassign this value, but you should check whether the new value is Boss. Each Boss has a list of his own
-workers. You should implement a method that allows you to add workers to a Boss. You're not allowed to add instances of
-Boss class to workers list directly via access to attribute, use getters and setters instead!
+Write a decorator that takes a list of stop words and replaces them with * inside the decorated function
 """
+from functools import wraps
 
 
-class Boss:
-    def __init__(self, id_: int, name: str, company: str):
-        self.id = id_
-        self.name = name
-        self.company = company
-        self.__workers = []
-        
-    def __str__(self):
-        return self.name
-    
-    def __repr__(self):
-        return self.__class__, self.name
-    
-    @property
-    def workers(self):
-        return self.__workers
-    
-    @workers.setter
-    def workers(self, worker):
-        self.__workers.append(worker)
-    
-    @workers.deleter
-    def workers(self):
-        self.__workers.clear()
+def stop_word(word: list):
+    def stop_word_dec(func):
+        @wraps(func)
+        def wrap(name):
+            result = func(name)
+            for w in word:
+                result = result.replace(w, '*')
+            return result
+        return wrap
+    return stop_word_dec
 
 
-class Worker:
-    def __init__(self, id_: int, name: str, company: str, boss: Boss):
-        self.id = id_
-        self.name = name
-        self.company = company
-        self.__boss = boss
-    
-    def __str__(self):
-        return self.name
-    
-    def __repr__(self):
-        return f'{self.__class__}: {self.name}'
-    
-    @property
-    def boss(self):
-        return self.__boss
-    
-    @boss.setter
-    def boss(self, boss: Boss):
-        if isinstance(boss, Boss):
-            self.__boss = boss
-        else:
-            raise TypeError()
-    
-    @boss.deleter
-    def boss(self):
-        self.__boss = None
+@stop_word(['pepsi', 'BMW'])
+def create_slogan(name: str) -> str:
+    return f"{name} drinks pepsi in his brand new BMW!"
+
+
+assert create_slogan("Steve") == "Steve drinks * in his brand new *!"

@@ -1,19 +1,5 @@
-from math import prod
-
-
-def make_operation(operator: str, *args: int) -> int:
-    result = 0
-    if operator in ['+', '-', '*'] and all(isinstance(x, int) for x in args):
-        if operator == '+':
-            result = sum(args)
-        elif operator == '*':
-            result = prod(args)
-        elif operator == '-':
-            return args[0] - sum(args[1:])
-    else:
-        print('Unknown operator or arg is not int.')
-        result = 0
-    return result
-
-
-
+"""
+Use a list comprehension to make a list containing tuples (i, j) where `i` goes from 1 to 10 and `j` is corresponding
+to `i` squared.
+"""
+print([(i, i**2) for i in range(1, 11)])

@@ -1,20 +1,26 @@
 """
-Create a class method named `validate`, which should be called from the `__init__` method to validate parameter email,
-passed to the constructor. The logic inside the `validate` method could be to check if the passed email parameter is a
-valid email string.
+Write a decorator that prints a function with arguments passed to it.
+NOTE! It should print the function, not the result of its execution!
 """
-import re
+from functools import wraps
 
 
-class Validator:
-    _regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
+def logger(func):
+    @wraps(func)
+    def wrap(*args):
+        print(f'{func.__name__} called with {", ".join(str(a) for a in args)} ')
+    return wrap
     
-    def __init__(self, email: str) -> None:
-        if Validator.validate(email):
-            self.email = email
-        else:
-            raise ValueError(f'E-mail: {email} - is not valid.')
-    
-    @classmethod
-    def validate(cls, email: str) -> bool:
-        return True if re.fullmatch(cls._regex, email) else False
+
+@logger
+def add(x, y):
+    return x + y
+
+
+@logger
+def square_all(*args):
+    return [arg ** 2 for arg in args]
+
+
+add(1, 2)
+square_all(1, 2, 3, 4, 5)

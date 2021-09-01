@@ -1,14 +1,17 @@
-from random import randrange
-
-list1, list2 = [], []
+"""
+Write a program that takes your name as input, and then your age as input and greets you with the following:
+“Hello <name>, on your next birthday you’ll be <age+1> years”
+"""
+name = input('Your name: ').strip()
 while True:
-    list1.append(randrange(0, 10))
-    list2.append(randrange(0, 10))
-    if len(list1) == 10 and len(list2) == 10:
-        break
-        
-list3 = list(set(list1) & set(list2))
-print(f'list 1: {list1}', f'list 2: { list2}', sep='\n')
-print(f'list 3: {list3}')
+    try:
+        age = int(input('Your age: '))
+        if age not in range(1, 100):
+            print('ERROR: You entered incorrect data!')
+            continue
+    except ValueError:
+        print('ERROR: You entered incorrect data!')
+        continue
+    break
     
-
+print(f'Hello {name}, on your next birthday you’ll be {age + 1} years')

@@ -1,19 +1,20 @@
-"""Make a class called Person. Make the __init__() method take firstname, lastname, and age as parameters and add them
-as attributes. Make another method called talk() which makes prints a greeting from the person containing, for example
-like this: “Hello, my name is Carl Johnson and I’m 26 years old”."""
+import sys
 
 
-class Person:
-    """ A Person class"""
-    def __init__(self, firstname: str, lastname: str, age: int) -> None:
-        self.firstname = firstname
-        self.lastname = lastname
-        self.age = age
-    
-    def talk(self) -> None:
-        print(f'Hello, my name is {self.firstname} {self.lastname} and I’m {self.age} years old')
+def write(file_path: str, text: str):
+    with open(file_path, 'w') as file:
+        file.write(text+'\n')
+    return
 
 
-obj = Person('Carl', 'Johnson', 26)
-obj.talk()
+def read(file_path: str) -> str:
+    with open(file_path, 'r') as file:
+        print(file.read())
+
+
+if __name__ == "__main__":
+    write(sys.argv[1], sys.argv[2])
+    read(sys.argv[1])
+
+#  python3 task1.py file.txt 'Hello world!'
 

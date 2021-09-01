@@ -1,78 +1,72 @@
 """
-Also, the ProductStore class must have the following methods:
-add(product, amount) - adds a specified quantity of a single product with a predefined price premium for your
-store(30 percent)
-set_discount(identifier, percent, identifier_type=’name’) - adds a discount for all products specified by input
-identifiers (type or name). The discount must be specified in percentage
-sell_product(product_name, amount) - removes a particular amount of products from the store if available, in other case
-raises an error. It also increments income if the sell_product method succeeds.
-get_income() - returns amount of many earned by ProductStore instance.
-get_all_products() - returns information about all available products in the store.
-get_product_info(product_name) - returns a tuple with product name and amount of items in the store.
+TV controller
+Create a simple prototype of a TV controller in Python. It’ll use the following commands:
+first_channel() - turns on the first channel from the list.
+last_channel() - turns on the last channel from the list.
+turn_channel(N) - turns on the N channel. Pay attention that the channel numbers start from 1, not from 0.
+next_channel() - turns on the next channel. If the current channel is the last one, turns on the first channel.
+previous_channel() - turns on the previous channel. If the current channel is the first one, turns on the last channel.
+current_channel() - returns the name of the current channel.
+is_exist(N/'name') - gets 1 argument - the number N or the string 'name' and returns "Yes", if the channel N or 'name'
+exists in the list, or "No" - in the other case.
 """
 
 
-class Product:
-    def __init__(self, type, name, price):
-        self.type_ = type
-        self.name = name
-        self.price = price
-
-    def __str__(self) -> str:
-        return f'Name: {self.name}, type: {self.type_}, price: {self.price}'
-
-
-class ProductStore:
-   
-    def __init__(self):
-        self. products = []
-        self.__income = float()
-        
-    def add(self, product: Product, amount: int) -> None:
-        product.price += 0.3 * product.price
-        product.amount = amount
-        self.products.append(product)
-        
-    def set_discount(self, identifier: str, percent: int) -> None:
-        for i in range(0, len(self.products)):
-            if self.products[i].name == identifier or self.products[i].type_ == identifier:
-                self.products[i].price -= self.products[i].price * (percent / 100)
-            
-    def sell_product(self, product_name: str, amount: int) -> None:
-        for i in range(0, len(self.products)):
-            if self.products[i].name == product_name and self.products[i].amount >= amount:
-                self.products[i].amount -= amount
-                self.__income += self.products[i].price * amount
-            else:
-                continue
-                
-    def get_income(self) -> float:
-        return self.__income
-
-    def get_all_products(self) -> str:
-        products_display = str()
-        for i in self.products:
-            if i.amount != 0:
-                products_display += f'{i.name.upper()}: type: {i.type_}, price: {i.price}, amount: {i.amount}\n'
-        return products_display
+class TVController:
+    """ TV controller class"""
+    def __init__(self, channels: list) -> None:
+        self.CHANNELS = channels
+        self.current_channel = 0
     
-    def get_product_info(self, product_name: str) -> tuple:
-        for i in range(0, len(self.products)):
-            if self.products[i].name == product_name:
-                return self.products[i].name, self.products[i].amount
-
-
-p = Product('Sport', 'Football T-Shirt', 100)
-p2 = Product('Food', 'Ramen', 1.5)
-s = ProductStore()
-s.add(p, 10)
-s.add(p2, 300)
-s.sell_product('Ramen', 10)
-assert s.get_product_info('Ramen') == ('Ramen', 290)
-
-
-
-
-
-
-
+    def is_exist(self, n: int or str) -> str:
+        if type(n) is str:
+            result = "Yes" if n in self.CHANNELS else "No"
+        elif type(n) is int and n > 0:
+            result = "Yes" if n in range(1, len(self.CHANNELS)+1) else "No"
+        else:
+            result = 'No'
+        return result
+        
+    def first_channel(self):
+        self.current_channel = 0
+        return self.current_channel_display()
+    
+    def last_channel(self):
+        self.current_channel = len(self.CHANNELS)-1
+        return self.current_channel_display()
+    
+    def turn_channel(self, n):
+        if self.is_exist(n) == 'Yes':
+            self.current_channel = n - 1
+            return self.current_channel_display()
+        else:
+            return 'Channel not found.'
+    
+    def next_channel(self):
+        if self.current_channel == len(self.CHANNELS)-1:
+            self.current_channel = 0
+        else:
+            self.current_channel += 1
+        return self.current_channel_display()
+    
+    def previous_channel(self):
+        if self.current_channel == 0:
+            self.current_channel = len(self.CHANNELS)-1
+        else:
+            self.current_channel -= 1
+        return self.current_channel_display()
+        
+    def current_channel_display(self):
+        return self.CHANNELS[self.current_channel]
+    
+   
+CHANNELS = ["BBC", "Discovery", "TV1000"]
+controller = TVController(CHANNELS)
+print(controller.first_channel())               # "BBC"
+print(controller.last_channel())                # "TV1000"
+print(controller.turn_channel(1))               # "BBC"
+print(controller.next_channel())                # "Discovery"
+print(controller.previous_channel())            # "BBC"
+print(controller.current_channel_display())     # "BBC"
+print(controller.is_exist(4))                   # "No"
+print(controller.is_exist("BBC"))               # "Yes"

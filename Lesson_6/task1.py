@@ -1,13 +1,22 @@
+"""
+Write a Python program to get the largest number from a list of random numbers with the length of 10
 
-def word_counter(s: str) -> dict:
-    result = dict()
-    for i in s.split(' '):
-        if result.get(i) is None:
-            result[i] = 1
-        else:
-            result[i] += 1
-    return result
+Constraints: use only while loop and random module to generate numbers
+"""
+from random import randrange
 
+list_nums = []
+max_num = 0
+while True:
+    random_num = randrange(0, 999)
+    list_nums.append(random_num)
+    if max_num < random_num: max_num = random_num  # 2 without use max()
+    if len(list_nums) == 10:
+        print(max_num)          # 2 without use max()
+        break
+print(max(list_nums))
+print(list_nums)
 
-print(word_counter('Make a program that has some sentence a string on input and returns a dict containing '
-                   'all unique words as keys and the number of occurrences as values. '.lower()))
+    
+    
+
