@@ -1,3 +1,10 @@
+"""
+Pick your solution to one of the exercises in this module. Design tests for this solution and write tests using
+unittest library.
+
+Lesson_13/task2
+"""
+
 import unittest
 from Lesson_13.task2 import *
 
@@ -28,7 +35,3 @@ class TestLibrary(unittest.TestCase):
         self.assertNotIsInstance(self.lib_obj.group_by_year(1988), str)
         with self.assertRaises(TypeError):
             self.lib_obj.group_by_year('1988')
-        
-            
-    
-    
