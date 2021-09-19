@@ -85,7 +85,8 @@ def display(json_object: dict, pk: list = None) -> None:
         print('_' * 50)
         i += 1
 
+
 if __name__ == '__main__':
-    None
+    pass
 
 
