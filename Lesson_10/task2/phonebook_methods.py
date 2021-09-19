@@ -1,43 +1,62 @@
+import os
 import json
 
-file_path = 'phonebook_db.json'
+
+#file_path = 'phonebook_db.json'
 
 
-def get_json_object() -> dict:
+def get_json_object(file_path='phonebook_db.json') -> dict:
     json_dict = dict()
-    try:
-        json_dict = json.load(open(file_path, 'r'))
-    except FileNotFoundError:
-        print('No such file or directory.')
+    with open(file_path, 'r') as f:
+        try:
+            json_dict = json.load(f)
+        except FileNotFoundError:
+            print('No such file or directory.')
     return json_dict
 
 
 def get_field(json_object: dict) -> list:
     fields = []
-    for i in json_object:
-        for j in json_object[i]:
-            fields.append(j)
-        break
+    if not isinstance(json_object, dict):
+        raise TypeError
+    try:
+        for i in json_object:
+            for j in json_object[i]:
+                fields.append(j)
+            break
+    except TypeError as e:
+        print(e)
     return fields
     
 
-def update(json_object: dict, data: dict, pk=None) -> bool:
-    try:
-        if type(data) is dict and pk is None:
-            json_object.update(data)
-        else:
-            json_object[pk] = data
+def update(json_object: dict, data: dict, pk: str = None, file_path: str = 'phonebook_db.json') -> bool:
+    if not isinstance(json_object, dict) or not isinstance(data, dict):
+        raise TypeError
+    if pk is None:
+        json_object.update(data)
+    else:
+        json_object[pk] = data
         json.dump(json_object, open(file_path, 'w'), indent=4)
-        return True
-    except FileNotFoundError:
-        print('No such file or directory.')
-        return False
+    return True
 
     
-def delete(json_object: dict, pk: str) -> bool:
-    json_object.pop(pk)
-    json.dump(json_object, open(file_path, 'w'), indent=4)
-    return True
+def delete(json_object: dict, pk: str, file_path: str = 'phonebook_db.json') -> bool:
+    if not isinstance(json_object, dict):
+        raise TypeError
+    try:
+        json_object.pop(pk)
+        with open(file_path, 'w') as f:
+            json.dump(json_object, f, indent=4)
+    except Exception:
+        raise KeyError
+    else:
+        return True
+    
+        
+   
+    
+        
+    
 
 
 def get_item(json_object: dict, pk: str) -> dict:
@@ -87,6 +106,6 @@ def display(json_object: dict, pk: list = None) -> None:
 
 
 if __name__ == '__main__':
-    pass
+    delete(get_json_object('test_phonebook.db'))
 
 
