@@ -28,30 +28,6 @@ class Author:
         return self.name
 
 
-class Library:
-    def __init__(self, name: str):
-        self.name = name
-        self.books = []
-        self.author = []
-
-    def __str__(self):
-        return self.name
-
-    def __repr__(self):
-        return self.name
-    
-    def new_book(self, name: str, year: int, author: Author) -> object:
-        book = Book(name, year, author)
-        self.books.append(book)
-        return book
-    
-    def group_by_author(self, author: Author):
-        return [book for book in self.books if book.author.name == author.name]
-    
-    def group_by_year(self, year: int):
-        return [book for book in self.books if book.year == year]
-
-
 class Book:
     count = 0
     
@@ -66,3 +42,33 @@ class Book:
     
     def __repr__(self):
         return self.name
+    
+    
+class Library:
+    def __init__(self, name: str) -> None:
+        self.name = name
+        self.books = []
+        self.author = []
+
+    def __str__(self):
+        return self.name
+
+    def __repr__(self):
+        return self.name
+    
+    def new_book(self, name: str, year: int, author: Author) -> Book:
+        if not isinstance(name, str) or not isinstance(year, int) or not isinstance(author, Author):
+            raise TypeError
+        book = Book(name, year, author)
+        self.books.append(book)
+        return book
+    
+    def group_by_author(self, author: Author) -> list:
+        if not isinstance(author, Author):
+            raise TypeError
+        return [book for book in self.books if book.author.name == author.name]
+    
+    def group_by_year(self, year: int) -> list:
+        if not isinstance(year, int):
+            raise TypeError
+        return [book for book in self.books if book.year == year]
