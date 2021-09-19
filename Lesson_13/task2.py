@@ -16,44 +16,44 @@ Also, the book class should have a class variable which holds the amount of all 
 
 
 class Author:
-    def __init__(self,  name: str, country: str, birthday: str):
+    def __init__(self,  name: str, country: str, birthday: str) -> None:
         self.name = name
         self.country = country
         self.birthday = birthday
     
-    def __str__(self):
+    def __str__(self) -> str:
         return self.name
     
-    def __repr__(self):
+    def __repr__(self) -> str:
         return self.name
 
 
 class Book:
-    count = 0
+    count: int = 0
     
-    def __init__(self, name: str, year: int, author: Author):
+    def __init__(self, name: str, year: int, author: Author) -> None:
         self.name = name
         self.year = year
         self.author = author
         Book.count += 1
     
-    def __str__(self):
+    def __str__(self) -> str:
         return self.name
     
-    def __repr__(self):
+    def __repr__(self) -> str:
         return self.name
     
     
 class Library:
     def __init__(self, name: str) -> None:
         self.name = name
-        self.books = []
-        self.author = []
+        self.books: list = []
+        self.author: list = []
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.name
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return self.name
     
     def new_book(self, name: str, year: int, author: Author) -> Book:
